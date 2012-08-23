@@ -16,39 +16,39 @@ YSHI.Template = (function() {
 			(typeof(obj.prototype) === 'undefined'));
 	};
 
-	var TextNode = function(text) {
+	var TextTemplateNode = function(text) {
 		this._text = text
 	};
 
-	TextNode.prototype.to_domobjs = function() {
+	TextTemplateNode.prototype.to_domobjs = function() {
 	        var tempDiv = document.createElement('div');
 		tempDiv.innerHTML = this._text;
-		return tempDiv.childNodes;
+		return tempDiv.childTemplateNodes;
 	};
 
-	var Node = function(tag_name) {
+	var TemplateNode = function(tag_name) {
 		this._tag_name = tag_name;
 		this._attrs = {};
 		this._children = [];
 	};
 
-	Node.prototype.setAttribute = function(attrkey, attrval) {
+	TemplateNode.prototype.setAttribute = function(attrkey, attrval) {
 		this._attrs[attrkey] = attrval;
 	};
 
-	Node.prototype.appendChild = function(child) {
+	TemplateNode.prototype.appendChild = function(child) {
 		this._children.push(child)
 	};
 
-	Node.prototype.to_domobj = function() {
+	TemplateNode.prototype.to_domobj = function() {
 		var o = document.createElement(this._tag_name);
 		for (key in this._attrs) {
 			o.setAttribute(key, this._attrs[key]); };
 		for (chidx in this._children) {
 			var child = this._children[chidx];
-			if (child instanceof Node) {
+			if (child instanceof TemplateNode) {
 				o.appendChild(this._children[chidx].to_domobj());
-			} else if (child instanceof TextNode) {
+			} else if (child instanceof TextTemplateNode) {
 				var to_add = child.to_domobjs();
 				for (var i = 0; i < to_add.length; i++) {
 					o.appendChild(to_add[i]);
@@ -72,10 +72,10 @@ YSHI.Template = (function() {
 	for (idx in tags) {
 		Template.prototype.tags[tags[idx]] = (function(tag_name) {
 			return function() {
-				var o = new Node(tag_name);
+				var o = new TemplateNode(tag_name);
 				var has_attrs = true;
-				if (arguments[0] instanceof Node) has_attrs = false;
-				if (arguments[0] instanceof TextNode) has_attrs = false;
+				if (arguments[0] instanceof TemplateNode) has_attrs = false;
+				if (arguments[0] instanceof TextTemplateNode) has_attrs = false;
 				if (!is_dict(arguments[0])) has_attrs = false;
 				if (has_attrs) {
 					for (key in arguments[0]) {
@@ -88,7 +88,7 @@ YSHI.Template = (function() {
 	};
 
 	Template.prototype.tags['escapedtext'] = function(text) {
-		return new TextNode(text);
+		return new TextTemplateNode(text);
 	};
 
 	Template.VERSION = [0, 0, 1];
