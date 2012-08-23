@@ -1,0 +1,19 @@
+<!DOCTYPE>
+<html>
+	<head>
+		<title>YSHI.Template</title>
+		<script type="text/javascript" src="../src/yshi.template.js"></script>
+		<script type="text/javascript">
+			var helloworld_tpl = new YSHI.Template(function() {
+				return this.tags.div(
+					this.tags.h1({'class': 'hello'}, 'Hello World!'),
+					this.tags.p('from YSHI.Template'));
+			});
+			window.onload = function() {
+				document.body.appendChild(helloworld_tpl.render());
+			};
+		</script>
+	</head>
+	<body>
+	</body>
+</html>
