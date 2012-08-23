@@ -91,5 +91,7 @@ YSHI.Template = (function() {
 		return new TextNode(text);
 	};
 
+	Template.VERSION = [0, 0, 1];
+	Template.VERSION_STRING = 'YSHI.Template 0.0.1';
 	return Template;
 })();
