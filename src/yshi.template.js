@@ -8,13 +8,13 @@ YSHI.Template = (function() {
 		"dl", "dt", "dd",
 		"h1", "h2", "h3", "h4", "h5", "h6", "h7",
 		"form", "fieldset", "input", "textarea", "label", "select", "option"
-	]
+	];
 
 	var is_dict = function (obj) {
 		/* TODO: this isn't constrainted enough */
 		return ((typeof(obj) === 'object') &&
 			(typeof(obj.prototype) === 'undefined'));
-	}
+	};
 
 	var TextNode = function(text) {
 		this._text = text
@@ -58,7 +58,7 @@ YSHI.Template = (function() {
 			}
 		}
 		return o;
-	}
+	};
 
 	var Template = function(tpl_func) {
 		this._tpl_func = tpl_func;
