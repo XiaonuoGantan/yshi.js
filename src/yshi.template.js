@@ -56,7 +56,12 @@ YSHI.Template = (function() {
 				}
 			} else if (typeof(this._children[chidx]) === 'string') {
 				o.appendChild(document.createTextNode(this._children[chidx]));
-			}
+			} else if (this._children[chidx] instanceof Array) {
+				var tmp = this._children[chidx];
+				for (var i = 0; i < tmp.length; i++) {
+					o.appendChild(to_add[i]);
+				}
+			} else { throw new TypeError(); };
 		}
 		return o;
 	};
