@@ -59,7 +59,7 @@ YSHI.Template = (function() {
 			} else if (this._children[chidx] instanceof Array) {
 				var tmp = this._children[chidx];
 				for (var i = 0; i < tmp.length; i++) {
-					o.appendChild(to_add[i]);
+					o.appendChild(tmp[i].to_domobj());
 				}
 			} else { throw new TypeError(); };
 		}
