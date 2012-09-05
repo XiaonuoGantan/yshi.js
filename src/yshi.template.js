@@ -24,7 +24,7 @@ YSHI.Template = (function() {
 	TextTemplateNode.prototype.to_domobjs = function() {
 	        var tempDiv = document.createElement('div');
 		tempDiv.innerHTML = this._text;
-		return tempDiv.childTemplateNodes;
+		return tempDiv.childNodes;
 	};
 
 	var TemplateNode = function(tag_name) {
