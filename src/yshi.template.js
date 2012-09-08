@@ -74,28 +74,34 @@ YSHI.Template = (function() {
 		return this._tpl_func.call(this, data).to_domobj();
 	};
 
+	var _tag_factory = function(tag_name) {
+		return function() {
+			var o = new TemplateNode(tag_name);
+			var has_attrs = true;
+			if (arguments[0] instanceof TemplateNode) has_attrs = false;
+			if (arguments[0] instanceof TextTemplateNode) has_attrs = false;
+			if (!is_dict(arguments[0])) has_attrs = false;
+			if (has_attrs) {
+				for (key in arguments[0]) {
+					o.setAttribute(key, arguments[0][key]); }}
+			for(var i = (has_attrs ? 1 : 0); i < arguments.length; i++) {
+				o.appendChild(arguments[i]); }
+			return o;
+		};
+	}
+
 	Template.prototype.tags = {};
 	for (idx in tags) {
-		Template.prototype.tags[tags[idx]] = (function(tag_name) {
-			return function() {
-				var o = new TemplateNode(tag_name);
-				var has_attrs = true;
-				if (arguments[0] instanceof TemplateNode) has_attrs = false;
-				if (arguments[0] instanceof TextTemplateNode) has_attrs = false;
-				if (!is_dict(arguments[0])) has_attrs = false;
-				if (has_attrs) {
-					for (key in arguments[0]) {
-						o.setAttribute(key, arguments[0][key]); }}
-				for(var i = (has_attrs ? 1 : 0); i < arguments.length; i++) {
-					o.appendChild(arguments[i]); }
-				return o;
-			};
-		})(tags[idx]);
+		Template.prototype.tags[tags[idx]] = _tag_factory(tags[idx]);
 	};
 
 	Template.prototype.tags['escapedtext'] = function(text) {
 		return new TextTemplateNode(text);
 	};
+
+	Template.add_tag = function(tag_name) {
+		Template.prototype.tags[tag_name] = _tag_factory(tag_name);
+	}
 
 	Template.VERSION = [0, 0, 1];
 	Template.VERSION_STRING = 'YSHI.Template 0.0.1';
