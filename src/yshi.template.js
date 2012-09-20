@@ -70,8 +70,8 @@ YSHI.Template = (function() {
 		this._tpl_func = tpl_func;
 	};
 
-	Template.prototype.render = function(data) {
-		return this._tpl_func.call(this, data).to_domobj();
+	Template.prototype.render = function() {
+		return this._tpl_func.apply(this, arguments).to_domobj();
 	};
 
 	var _tag_factory = function(tag_name) {
